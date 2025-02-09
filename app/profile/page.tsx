@@ -67,9 +67,26 @@ export default function ProfilePage() {
     }
   };
 
+  const deleteAccount = async () => {
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'DELETE',
+      });
+      
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to delete account');
+      }
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la suppression du compte:', error);
+      throw error;
+    }
+  };
+
   const handleDeleteAccount = async () => {
     const confirmed = await new Promise((resolve) => {
-      toast((t) => (
+      toast((t: { id: string }) => (
         <div className="flex flex-col gap-4">
           <p className="text-sm font-medium text-gray-900">
             Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.
@@ -80,7 +97,7 @@ export default function ProfilePage() {
                 toast.dismiss(t.id);
                 resolve(false);
               }}
-              className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="text-sm text-gray-500 hover:text-gray-700"
             >
               Annuler
             </button>
@@ -89,32 +106,25 @@ export default function ProfilePage() {
                 toast.dismiss(t.id);
                 resolve(true);
               }}
-              className="px-3 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+              className="text-sm text-red-600 hover:text-red-700"
             >
               Supprimer
             </button>
           </div>
         </div>
-      ), { duration: Infinity });
+      ));
     });
 
-    if (!confirmed) return;
-
-    const loadingToast = toast.loading("Suppression du compte...");
-
-    try {
-      const res = await fetch("/api/profile", {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        throw new Error("Erreur lors de la suppression du compte");
+    if (confirmed) {
+      try {
+        const success = await deleteAccount();
+        if (success) {
+          signOut({ callbackUrl: '/' });
+        }
+      } catch (error) {
+        console.error('Erreur lors de la suppression du compte', error);
+        toast.error('Une erreur est survenue lors de la suppression du compte');
       }
-
-      toast.success("Compte supprimé avec succès", { id: loadingToast });
-      await signOut({ callbackUrl: "/login" });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Une erreur est survenue", { id: loadingToast });
     }
   };
 

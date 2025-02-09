@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { hash, compare } from "bcryptjs";
 
@@ -70,15 +70,35 @@ export async function DELETE() {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
 
-    await prisma.user.delete({
-      where: { email: session.user.email },
-    });
+    // Supprimer d'abord les dépendances de l'utilisateur
+    await prisma.$transaction([
+      // Supprimer les réservations de l'utilisateur
+      prisma.reservation.deleteMany({
+        where: {
+          user: {
+            email: session.user.email
+          }
+        }
+      }),
+      // Supprimer les activités organisées par l'utilisateur
+      prisma.activity.deleteMany({
+        where: {
+          organizer: {
+            email: session.user.email
+          }
+        }
+      }),
+      // Enfin, supprimer l'utilisateur
+      prisma.user.delete({
+        where: { email: session.user.email }
+      })
+    ]);
 
     return NextResponse.json({ message: "Compte supprimé avec succès" });
   } catch (error: unknown) {
     console.error("Erreur lors de la suppression du compte:", error);
     return NextResponse.json(
-      { error: "Erreur lors de la suppression du compte" },
+      { error: "Une erreur est survenue lors de la suppression du compte" },
       { status: 500 }
     );
   }

@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from "@/lib/auth";
 import { CalendarIcon, ClockIcon, UserGroupIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { ActivityMapSection } from '@/app/components/ActivityMapSection';
 import Link from 'next/link';
@@ -42,7 +42,8 @@ export default async function ActivityPage({ params }: Props) {
           user: {
             select: {
               firstName: true,
-              lastName: true
+              lastName: true,
+              email: true
             }
           }
         }
@@ -139,9 +140,7 @@ export default async function ActivityPage({ params }: Props) {
                   activityId={activity.id}
                   available={activity.available}
                   isRegistered={activity.reservations.some(
-                    reservation => 
-                      reservation.user.firstName === session?.user?.name?.split(' ')[0] &&
-                      reservation.user.lastName === session?.user?.name?.split(' ')[1]
+                    reservation => reservation.user.email === session?.user?.email
                   )}
                 />
               </div>

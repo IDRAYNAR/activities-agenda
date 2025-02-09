@@ -29,14 +29,18 @@ export default function LoginPage() {
       });
 
       if (res?.error) {
-        setError(res.error);
+        if (res.error === 'CredentialsSignin') {
+          setError('Email ou mot de passe incorrect');
+        } else {
+          setError(res.error);
+        }
       } else {
         router.push('/dashboard');
         router.refresh();
       }
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
-      setError('Une erreur est survenue');
+      setError('Une erreur est survenue lors de la connexion');
     }
   };
 

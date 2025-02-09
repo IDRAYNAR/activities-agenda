@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google';
 import "./globals.css";
 import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
+import { authOptions } from "@/lib/auth";
 import ClientLayout from './components/ClientLayout';
 import Providers from './components/Providers';
 import 'leaflet/dist/leaflet.css';

@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 
 export async function POST(request: Request) {
   try {
@@ -80,8 +81,8 @@ export async function GET(request: Request) {
         // Condition de recherche par nom ou description si query existe
         query ? {
           OR: [
-            { name: { contains: query, mode: 'insensitive' } },
-            { description: { contains: query, mode: 'insensitive' } }
+            { name: { contains: query, mode: 'insensitive' as Prisma.QueryMode } },
+            { description: { contains: query, mode: 'insensitive' as Prisma.QueryMode } }
           ]
         } : {},
         // Filtre par type si spécifié

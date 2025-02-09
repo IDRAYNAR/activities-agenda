@@ -1,16 +1,19 @@
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { ActivityForm } from '@/app/components/ActivityForm';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-export default async function EditActivityPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export default async function EditActivityPage({ params }: PageProps) {
+  const resolvedParams = await params;
   const session = await getServerSession(authOptions);
   
   if (!session?.user?.email) {
@@ -20,7 +23,7 @@ export default async function EditActivityPage({
   const [activity, types] = await Promise.all([
     prisma.activity.findFirst({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(resolvedParams.id),
         organizer: {
           email: session.user.email
         }

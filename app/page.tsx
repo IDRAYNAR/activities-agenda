@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import { FeaturedActivities } from './components/FeaturedActivities';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: 'Accueil - Réservation d\'activités',
