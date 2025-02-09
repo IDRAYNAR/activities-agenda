@@ -1,10 +1,16 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, SessionProviderProps } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({ 
+  children,
+  session
+}: { 
+  children: React.ReactNode;
+  session: SessionProviderProps['session'];
+}) {
   const router = useRouter();
 
   useEffect(() => {
@@ -20,7 +26,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, [router]);
 
   return (
-    <SessionProvider refetchInterval={0} refetchOnWindowFocus={true}>
+    <SessionProvider session={session}>
       {children}
     </SessionProvider>
   );

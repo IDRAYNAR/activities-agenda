@@ -26,7 +26,7 @@ export default async function RootLayout({
   return (
     <html lang="fr" className={inter.variable}>
       <body className="min-h-screen bg-gray-50">
-        <Providers>
+        <Providers session={session}>
           <ClientLayout session={session}>
             {children}
           </ClientLayout>

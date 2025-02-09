@@ -8,27 +8,37 @@ import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { data: session, update } = useSession();
+  const { data: session, status, update } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const [showPasswordReset, setShowPasswordReset] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [formData, setFormData] = useState({
-    firstName: session?.user?.firstName || "",
-    lastName: session?.user?.lastName || "",
-    email: session?.user?.email || "",
+    firstName: "",
+    lastName: "",
+    email: "",
     currentPassword: "",
     newPassword: "",
   });
 
+  // Redirection si non connecté
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
   // Met à jour le formulaire quand la session change
   useEffect(() => {
     if (session?.user) {
-      setFormData(prev => ({
-        ...prev,
+      setFormData({
         firstName: session.user.firstName || "",
         lastName: session.user.lastName || "",
         email: session.user.email || "",
-      }));
+        currentPassword: "",
+        newPassword: "",
+      });
+      setIsLoading(false);
     }
   }, [session]);
 
@@ -54,7 +64,17 @@ export default function ProfilePage() {
         throw new Error(data.error || "Une erreur est survenue");
       }
 
-      await update(); // Met à jour la session
+      // Mise à jour de la session avec les nouvelles données
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
+          email: data.user.email
+        }
+      });
+
       toast.success("Profil mis à jour avec succès", { id: loadingToast });
       setIsEditing(false);
       
@@ -150,13 +170,22 @@ export default function ProfilePage() {
     }
   };
 
+  if (status === "loading" || isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-violet-500"></div>
+      </div>
+    );
+  }
+
   if (!session) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="bg-gray-50 flex items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-md">
-          <p className="text-gray-600">Veuillez vous connecter pour accéder à votre profil.</p>
+          <p className="text-gray-600">⚠️ Veuillez vous connecter pour accéder à votre profil. ⚠️</p>
         </div>
       </div>
+
     );
   }
 
