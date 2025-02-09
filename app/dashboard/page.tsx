@@ -72,7 +72,7 @@ export default async function DashboardPage() {
           <ActivityList activities={activities} />
         ) : (
           <p className="text-gray-500 text-center py-8">
-            Vous n'avez pas encore réservé d'activités.
+            Vous n&apos;avez pas encore réservé d&apos;activités.
           </p>
         )}
       </div>

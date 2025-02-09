@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-interface ReservationButtonProps {
+type ReservationButtonProps = {
   activityId: number;
   available: number;
-}
+  isRegistered: boolean;
+};
 
-export function ReservationButton({ activityId, available }: ReservationButtonProps) {
+export function ReservationButton({ activityId, available, isRegistered }: ReservationButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -44,6 +45,17 @@ export function ReservationButton({ activityId, available }: ReservationButtonPr
       setIsLoading(false);
     }
   };
+
+  if (isRegistered) {
+    return (
+      <button
+        disabled
+        className="w-full rounded-md bg-green-100 px-3 py-2 text-sm font-semibold text-green-800 cursor-not-allowed"
+      >
+        Déjà inscrit
+      </button>
+    );
+  }
 
   if (available <= 0) {
     return (

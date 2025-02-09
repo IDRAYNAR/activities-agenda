@@ -4,6 +4,9 @@ import { ActivityFilters } from '@/app/components/ActivityFilters';
 import { CalendarIcon, ClockIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Pagination } from '@/app/components/Pagination';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { Prisma } from '@prisma/client';
 
 interface SearchParams {
   query?: string;
@@ -11,61 +14,46 @@ interface SearchParams {
   page?: string;
 }
 
-async function getActivities(searchParams: SearchParams) {
-  const query = searchParams.query;
-  const typeId = searchParams.type ? parseInt(searchParams.type) : undefined;
-  const page = Number(searchParams.page) || 1;
-  const itemsPerPage = 9;
-
-  const [activities, count] = await Promise.all([
-    prisma.activity.findMany({
-      where: {
-        AND: [
-          query ? {
-            OR: [
-              { name: { contains: query, mode: 'insensitive' } },
-              { description: { contains: query, mode: 'insensitive' } },
-            ],
-          } : {},
-          typeId ? { typeId } : {},
-        ],
-      },
-      include: {
-        type: true,
-        organizer: true,
-      },
-      orderBy: {
-        startTime: 'asc',
-      },
-      skip: (page - 1) * itemsPerPage,
-      take: itemsPerPage,
-    }),
-    prisma.activity.count({
-      where: {
-        AND: [
-          query ? {
-            OR: [
-              { name: { contains: query, mode: 'insensitive' } },
-              { description: { contains: query, mode: 'insensitive' } },
-            ],
-          } : {},
-          typeId ? { typeId } : {},
-        ],
-      },
-    }),
-  ]);
-
-  return { activities, count };
-}
-
 export default async function ActivitiesPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const [{ activities, count }, types] = await Promise.all([
-    getActivities(searchParams),
-    prisma.activityType.findMany(),
+  const page = Number(searchParams.page) || 1;
+  const type = typeof searchParams.type === 'string' ? searchParams.type : undefined;
+  const query = typeof searchParams.query === 'string' ? searchParams.query : undefined;
+
+  const where: Prisma.ActivityWhereInput = {
+    AND: [
+      query ? {
+        OR: [
+          { name: { contains: query, mode: 'insensitive' as Prisma.QueryMode } },
+          { description: { contains: query, mode: 'insensitive' as Prisma.QueryMode } }
+        ]
+      } : {},
+      type ? { typeId: parseInt(type) } : {}
+    ]
+  };
+
+  const [activities, total, types] = await Promise.all([
+    prisma.activity.findMany({
+      where,
+      take: 9,
+      skip: (page - 1) * 9,
+      orderBy: { startTime: 'asc' },
+      include: {
+        type: true,
+        organizer: {
+          select: {
+            firstName: true,
+            lastName: true
+          }
+        },
+        reservations: true
+      }
+    }),
+    prisma.activity.count({ where }),
+    prisma.activityType.findMany()
   ]);
 
   return (
@@ -81,65 +69,62 @@ export default async function ActivitiesPage({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {activities.map((activity) => {
             const isFullyBooked = activity.available <= 0;
+            const isRegistered = activity.reservations.length > 0;
             
             return (
               <Link
                 key={activity.id}
                 href={`/activities/${activity.id}`}
-                className={`block group ${isFullyBooked ? 'opacity-75' : ''}`}
+                className={`block bg-white rounded-lg shadow-sm ring-1 ring-gray-200 hover:shadow-md transition-shadow ${
+                  isFullyBooked || isRegistered ? 'opacity-75' : ''
+                }`}
               >
-                <div className={`bg-white rounded-lg shadow-sm ring-1 h-full
-                  ${isFullyBooked 
-                    ? 'ring-gray-200 hover:ring-gray-300' 
-                    : 'ring-gray-200 hover:ring-violet-500'} 
-                  transition-all`}
-                >
-                  <div className="p-6 flex flex-col h-full">
-                    <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800">
-                        {activity.type.name}
+                <div className="p-6">
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800">
+                      {activity.type.name}
+                    </span>
+                    {isRegistered ? (
+                      <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                        Inscrit
                       </span>
-                      <span className={`text-sm ${isFullyBooked ? 'text-red-500 font-medium' : 'text-gray-500'}`}>
-                        {isFullyBooked 
-                          ? 'Complet' 
-                          : `${activity.available} places disponibles`
-                        }
+                    ) : isFullyBooked ? (
+                      <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+                        Complet
                       </span>
-                    </div>
-                    
-                    <h2 className={`mt-4 text-lg font-semibold 
-                      ${isFullyBooked 
-                        ? 'text-gray-600 group-hover:text-gray-900' 
-                        : 'text-gray-900 group-hover:text-violet-600'}`}
-                    >
-                      {activity.name}
-                    </h2>
-                    
-                    <p className="mt-2 text-sm text-gray-600 line-clamp-2 flex-grow">
-                      {activity.description}
-                    </p>
-
-                    <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
-                      <div className="flex items-center">
-                        <CalendarIcon className="h-4 w-4 mr-1" />
-                        {new Date(activity.startTime).toLocaleDateString()}
-                      </div>
-                      <div className="flex items-center">
-                        <ClockIcon className="h-4 w-4 mr-1" />
-                        {activity.duration} min
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex items-center text-sm text-gray-500">
-                      <UserGroupIcon className="h-4 w-4 mr-2" />
-                      Organisé par {activity.organizer.firstName} {activity.organizer.lastName}
-                    </div>
-
-                    {isFullyBooked && (
-                      <div className="mt-4 text-sm text-red-500 bg-red-50 rounded-md p-2 text-center">
-                        Cette activité est complète
-                      </div>
+                    ) : (
+                      <span className="text-sm text-gray-500">
+                        {activity.available} places disponibles
+                      </span>
                     )}
+                  </div>
+                  
+                  <h2 className={`mt-4 text-lg font-semibold 
+                    ${isFullyBooked 
+                      ? 'text-gray-600 group-hover:text-gray-900' 
+                      : 'text-gray-900 group-hover:text-violet-600'}`}
+                  >
+                    {activity.name}
+                  </h2>
+                  
+                  <p className="mt-2 text-sm text-gray-600 line-clamp-2 flex-grow">
+                    {activity.description}
+                  </p>
+
+                  <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center">
+                      <CalendarIcon className="h-4 w-4 mr-1" />
+                      {new Date(activity.startTime).toLocaleDateString()}
+                    </div>
+                    <div className="flex items-center">
+                      <ClockIcon className="h-4 w-4 mr-1" />
+                      {activity.duration} min
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex items-center text-sm text-gray-500">
+                    <UserGroupIcon className="h-4 w-4 mr-2" />
+                    Organisé par {activity.organizer.firstName} {activity.organizer.lastName}
                   </div>
                 </div>
               </Link>
@@ -154,7 +139,7 @@ export default async function ActivitiesPage({
         )}
 
         <div className="mt-6">
-          <Pagination totalItems={count} itemsPerPage={9} />
+          <Pagination totalItems={total} itemsPerPage={9} />
         </div>
       </div>
     </div>

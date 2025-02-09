@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import { FeaturedActivities } from './components/FeaturedActivities';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export const metadata: Metadata = {
   title: 'Accueil - Réservation d\'activités',
@@ -8,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
+  const session = await getServerSession(authOptions);
+
   const featuredActivities = await prisma.activity.findMany({
     take: 6,
     orderBy: [
@@ -20,6 +24,13 @@ export default async function HomePage() {
     include: {
       type: true,
       organizer: true,
+      reservations: {
+        where: session?.user?.email ? {
+          user: {
+            email: session.user.email
+          }
+        } : undefined
+      },
       _count: {
         select: {
           reservations: true
@@ -29,8 +40,8 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-12">
         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
           Bienvenue sur <span className="text-violet-600">notre plateforme d&apos;activités</span>
         </h1>

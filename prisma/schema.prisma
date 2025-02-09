@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  firstName     String
-  lastName      String
-  email         String    @unique
-  password      String
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  reservations  Reservation[]
-  activities    Activity[]
+  id                String        @id @default(cuid())
+  firstName         String
+  lastName          String
+  email             String        @unique
+  password          String
+  role              Role         @default(USER)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  reservations      Reservation[]
+  organizedActivities Activity[]  @relation("Organizer")
 }
 
 model Reservation {
@@ -30,24 +30,26 @@ model Reservation {
   activity    Activity  @relation(fields: [activityId], references: [id])
 }
 
-
 model Activity {
-  id          Int          @id @default(autoincrement())
-  name        String
-  description String?
-  startTime   DateTime
-  duration    Int
-  available   Int
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  address     String
-  latitude    Float
-  longitude   Float
-  type        ActivityType @relation(fields: [typeId], references: [id])
-  typeId      Int
-  organizer   User         @relation(fields: [organizerId], references: [id])
-  organizerId String
-  reservations Reservation[]
+  id            Int          @id @default(autoincrement())
+  name          String
+  description   String?
+  startTime     DateTime
+  duration      Int
+  available     Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  address       String
+  latitude      Float
+  longitude     Float
+  type          ActivityType @relation(fields: [typeId], references: [id])
+  typeId        Int
+  organizer     User         @relation("Organizer", fields: [organizerId], references: [id])
+  organizerId   String
+  reservations  Reservation[]
+
+  @@index([organizerId])
+  @@index([typeId])
 }
 
 model ActivityType {

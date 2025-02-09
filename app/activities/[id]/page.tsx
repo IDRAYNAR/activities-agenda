@@ -1,13 +1,16 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { CalendarIcon, ClockIcon, UserGroupIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { ActivityMapSection } from '@/app/components/ActivityMapSection';
 import Link from 'next/link';
 import { ReservationButton } from '@/app/components/ReservationButton';
 
 export default async function ActivityPage({ params }: { params: { id: string } }) {
-  // Vérifier que l'ID est valide avant de l'utiliser
+  const session = await getServerSession(authOptions);
   const activityId = Number(params.id);
+  
   if (isNaN(activityId)) {
     notFound();
   }
@@ -17,12 +20,21 @@ export default async function ActivityPage({ params }: { params: { id: string } 
     include: {
       type: true,
       organizer: true,
+      reservations: {
+        where: session?.user?.email ? {
+          user: {
+            email: session.user.email
+          }
+        } : undefined
+      }
     },
   });
 
   if (!activity) {
     notFound();
   }
+
+  const isRegistered = activity.reservations.length > 0;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -97,6 +109,7 @@ export default async function ActivityPage({ params }: { params: { id: string } 
             <ReservationButton 
               activityId={activity.id} 
               available={activity.available}
+              isRegistered={isRegistered}
             />
           </div>
         </div>
