@@ -17,6 +17,13 @@ export default function Navbar({ session }: NavbarProps) {
     return pathname === path ? 'bg-indigo-700' : '';
   };
 
+  const getDashboardLink = () => {
+    if (!session?.user?.role) return null;
+    return session.user.role === 'ADMIN' ? '/dashboard/admin' : '/dashboard';
+  };
+
+  const dashboardLink = getDashboardLink();
+
   return (
     <nav className="bg-indigo-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,14 +48,14 @@ export default function Navbar({ session }: NavbarProps) {
                 >
                   Activités
                 </Link>
-                {session ? (
+                {dashboardLink && (
                   <Link
-                    href="/dashboard"
-                    className={`${isActive('/dashboard')} text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700`}
+                    href={dashboardLink}
+                    className={`${isActive(dashboardLink)} text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700`}
                   >
-                    Tableau de bord
+                    {session?.user?.role === 'ADMIN' ? 'Administration' : 'Tableau de bord'}
                   </Link>
-                ) : null}
+                )}
               </div>
             </div>
           </div>

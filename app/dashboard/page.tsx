@@ -11,6 +11,11 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
+  // Si l'utilisateur est admin, rediriger vers le dashboard admin
+  if (session.user.role === 'ADMIN') {
+    redirect('/dashboard/admin');
+  }
+
   const userWithReservations = await prisma.user.findUnique({
     where: { email: session.user.email },
     include: {
@@ -41,7 +46,7 @@ export default async function DashboardPage() {
           </h2>
         </div>
       </div>
-
+      
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="p-5">
@@ -78,4 +83,4 @@ export default async function DashboardPage() {
       </div>
     </div>
   );
-} 
+}

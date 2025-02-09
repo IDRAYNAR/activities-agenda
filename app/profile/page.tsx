@@ -57,7 +57,10 @@ export default function ProfilePage() {
       toast.success("Profil mis à jour avec succès", { id: loadingToast });
       setIsEditing(false);
       
-      // Force le rafraîchissement de la page pour mettre à jour toutes les données
+      // Émet un événement pour forcer le rafraîchissement
+      window.dispatchEvent(new Event('emailUpdated'));
+      
+      // Force le rafraîchissement de la page
       router.refresh();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Une erreur est survenue", { id: loadingToast });
