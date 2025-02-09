@@ -7,13 +7,20 @@ import { ActivityMapSection } from '@/app/components/ActivityMapSection';
 import Link from 'next/link';
 import { ReservationButton } from '@/app/components/ReservationButton';
 
-export default async function ActivityPage({ params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  const activityId = Number(params.id);
+type Props = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function ActivityPage({ params }: Props) {
+  const resolvedParams = await params;
+  const activityId = Number(resolvedParams.id);
   
   if (isNaN(activityId)) {
     notFound();
   }
+
+  const session = await getServerSession(authOptions);
 
   const activity = await prisma.activity.findUnique({
     where: { id: activityId },

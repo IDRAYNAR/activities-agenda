@@ -3,12 +3,17 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
+type RouteContext = {
+  params: Promise<{ id: string }>;
+};
+
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const session = await getServerSession(authOptions);
+    const params = await context.params;
 
     if (!session?.user?.email) {
       return NextResponse.json(
@@ -53,10 +58,11 @@ export async function DELETE(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const session = await getServerSession(authOptions);
+    const params = await context.params;
 
     if (!session?.user?.email) {
       return NextResponse.json(

@@ -6,14 +6,17 @@ import Link from 'next/link';
 import { Pagination } from '@/app/components/Pagination';
 import { Prisma } from '@prisma/client';
 
+type Props = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
 export default async function ActivitiesPage({
   searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
-  const page = Number(searchParams.page) || 1;
-  const type = typeof searchParams.type === 'string' ? searchParams.type : undefined;
-  const query = typeof searchParams.query === 'string' ? searchParams.query : undefined;
+}: Props) {
+  const resolvedSearchParams = await searchParams;
+  const page = Number(resolvedSearchParams.page) || 1;
+  const type = typeof resolvedSearchParams.type === 'string' ? resolvedSearchParams.type : undefined;
+  const query = typeof resolvedSearchParams.query === 'string' ? resolvedSearchParams.query : undefined;
 
   const where: Prisma.ActivityWhereInput = {
     AND: [

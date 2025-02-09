@@ -3,6 +3,25 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { Role } from "@prisma/client";
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    role: Role;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role?: Role;
+    firstName?: string;
+    lastName?: string;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -37,8 +56,7 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          name: `${user.firstName} ${user.lastName}`,
           role: user.role,
         };
       }
@@ -54,16 +72,12 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
-        token.firstName = user.firstName;
-        token.lastName = user.lastName;
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
-        session.user.firstName = token.firstName;
-        session.user.lastName = token.lastName;
         session.user.id = token.sub;
       }
       return session;
@@ -72,4 +86,12 @@ export const authOptions: NextAuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST }; 
+
+// Export the handler as an async function to match Next.js 15 requirements
+export async function GET(req: Request, context: { params: Promise<{ nextauth: string[] }> }) {
+  return handler(req, context);
+}
+
+export async function POST(req: Request, context: { params: Promise<{ nextauth: string[] }> }) {
+  return handler(req, context);
+} 

@@ -2,11 +2,16 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+type RouteContext = {
+  params: Promise<{ activityId: string }>;
+};
+
 export async function DELETE(
   request: Request,
-  { params }: { params: { activityId: string } }
+  context: RouteContext
 ) {
   const session = await getServerSession();
+  const params = await context.params;
   
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
