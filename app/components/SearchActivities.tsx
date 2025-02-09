@@ -10,7 +10,7 @@ export function SearchActivities() {
   const pathname = usePathname();
 
   const handleSearch = useDebouncedCallback((term: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams?.toString() || '');
     if (term) {
       params.set('query', term);
     } else {
@@ -29,7 +29,7 @@ export function SearchActivities() {
         placeholder="Rechercher une activité..."
         className="block w-full rounded-lg border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-600 sm:text-sm"
         onChange={(e) => handleSearch(e.target.value)}
-        defaultValue={searchParams.get('query')?.toString()}
+        defaultValue={searchParams?.get('query')?.toString()}
       />
     </div>
   );

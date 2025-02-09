@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [success, setSuccess] = useState('');
   
   useEffect(() => {
-    if (searchParams.get('registered')) {
+    if (searchParams?.get('registered')) {
       setSuccess('Inscription réussie ! Vous pouvez maintenant vous connecter.');
     }
   }, [searchParams]);

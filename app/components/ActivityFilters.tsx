@@ -9,7 +9,7 @@ export function ActivityFilters({ types }: { types: ActivityType[] }) {
   const pathname = usePathname();
 
   const handleFilterChange = (typeId: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams?.toString() || '');
     if (typeId === 'all') {
       params.delete('type');
     } else {
@@ -23,7 +23,7 @@ export function ActivityFilters({ types }: { types: ActivityType[] }) {
       <button
         onClick={() => handleFilterChange('all')}
         className={`rounded-full px-4 py-2 text-sm font-medium ${
-          !searchParams.get('type')
+          !searchParams?.get('type')
             ? 'bg-violet-600 text-white'
             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
         }`}
@@ -35,7 +35,7 @@ export function ActivityFilters({ types }: { types: ActivityType[] }) {
           key={type.id}
           onClick={() => handleFilterChange(type.id.toString())}
           className={`rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap ${
-            searchParams.get('type') === type.id.toString()
+            searchParams?.get('type') === type.id.toString()
               ? 'bg-violet-600 text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}

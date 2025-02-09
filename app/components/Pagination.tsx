@@ -14,11 +14,12 @@ export function Pagination({
   const { replace } = useRouter();
   const pathname = usePathname();
 
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const currentPage = Number(searchParams?.get('page')) || 1;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+
   const createPageURL = (pageNumber: number) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams?.toString() || '');
     params.set('page', pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };

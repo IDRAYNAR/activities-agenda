@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
+import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -32,9 +34,14 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="mt-60 flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
         <div>
+          <Link href="/login" className="flex items-center gap-2 text-violet-600 hover:text-violet-500">
+            <ArrowLeftIcon className="h-5 w-5" />
+            Retour
+          </Link>
+
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Mot de passe oublié
           </h2>
@@ -61,10 +68,11 @@ export default function ForgotPasswordPage() {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Envoyer le lien de réinitialisation
             </button>
+
           </div>
         </form>
       </div>
