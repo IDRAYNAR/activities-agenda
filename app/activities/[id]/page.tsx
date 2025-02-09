@@ -3,10 +3,17 @@ import { notFound } from 'next/navigation';
 import { CalendarIcon, ClockIcon, UserGroupIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { ActivityMapSection } from '@/app/components/ActivityMapSection';
 import Link from 'next/link';
+import { ReservationButton } from '@/app/components/ReservationButton';
 
 export default async function ActivityPage({ params }: { params: { id: string } }) {
+  // Vérifier que l'ID est valide avant de l'utiliser
+  const activityId = Number(params.id);
+  if (isNaN(activityId)) {
+    notFound();
+  }
+
   const activity = await prisma.activity.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: activityId },
     include: {
       type: true,
       organizer: true,
@@ -87,12 +94,10 @@ export default async function ActivityPage({ params }: { params: { id: string } 
           />
 
           <div className="mt-6">
-            <button
-              type="button"
-              className="w-full rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
-            >
-              Réserver cette activité
-            </button>
+            <ReservationButton 
+              activityId={activity.id} 
+              available={activity.available}
+            />
           </div>
         </div>
       </div>

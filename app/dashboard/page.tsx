@@ -1,28 +1,43 @@
 import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/prisma';
+import { redirect } from 'next/navigation';
 import ActivityList from '../components/ActivityList';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 
 export default async function DashboardPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const session = await getServerSession();
   
-  const activities = await prisma.activity.findMany({
-    where: {
-      // Ajoutez des conditions de filtrage si nécessaire
-    },
+  if (!session?.user?.email) {
+    redirect('/login');
+  }
+
+  const userWithReservations = await prisma.user.findUnique({
+    where: { email: session.user.email },
     include: {
-      type: true,
-      reservations: true,
-    },
+      reservations: {
+        include: {
+          activity: {
+            include: {
+              type: true,
+              organizer: true,
+            }
+          }
+        }
+      }
+    }
   });
+
+  const activities = userWithReservations?.reservations.map(r => ({
+    ...r.activity,
+    type: r.activity.type,
+  })) || [];
 
   return (
     <div>
       <div className="md:flex md:items-center md:justify-between mb-8">
         <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Tableau de bord
+            Mes activités
           </h2>
         </div>
       </div>
@@ -37,7 +52,7 @@ export default async function DashboardPage() {
               <div className="ml-5 w-0 flex-1">
                 <dl>
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Activités totales
+                    Activités réservées
                   </dt>
                   <dd className="text-lg font-medium text-gray-900">
                     {activities.length}
@@ -51,9 +66,15 @@ export default async function DashboardPage() {
 
       <div className="mt-8">
         <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
-          Activités récentes
+          Mes réservations
         </h3>
-        <ActivityList activities={activities} />
+        {activities.length > 0 ? (
+          <ActivityList activities={activities} />
+        ) : (
+          <p className="text-gray-500 text-center py-8">
+            Vous n'avez pas encore réservé d'activités.
+          </p>
+        )}
       </div>
     </div>
   );
