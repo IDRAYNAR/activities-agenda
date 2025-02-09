@@ -155,6 +155,16 @@ export default function Navbar({ session }: NavbarProps) {
                   >
                     Profil
                   </Link>
+                  {dashboardLink && (
+                    <Link
+                      href={dashboardLink}
+                      className={`text-white block px-3 py-2 rounded-md text-base font-medium ${
+                        pathname === dashboardLink ? 'bg-indigo-700' : ''
+                      }`}
+                    >
+                      {session?.user?.role === 'ADMIN' ? 'Administration' : 'Tableau de bord'}
+                    </Link>
+                  )}
                   <button
                     onClick={() => signOut()}
                     className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-700"
