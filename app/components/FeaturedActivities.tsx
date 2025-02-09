@@ -5,6 +5,7 @@ import { Activity, ActivityType } from '@prisma/client';
 
 type ActivityWithDetails = Activity & {
   type: ActivityType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reservations: any[];
   _count: {
     reservations: number;

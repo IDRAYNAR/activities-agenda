@@ -91,8 +91,8 @@ export function ActivityForm({ types, activity }: ActivityFormProps) {
               <div className="mt-2 text-sm text-blue-700">
                 <p>
                   Pour garantir la fiabilité des informations pour les participants déjà inscrits, 
-                  certains champs ne peuvent pas être modifiés après la création de l'activité 
-                  (nom, date, lieu et type d'activité). Vous pouvez toujours ajuster la description, 
+                  certains champs ne peuvent pas être modifiés après la création de l&apos;activité 
+                  (nom, date, lieu et type d&apos;activité). Vous pouvez toujours ajuster la description, 
                   la durée et le nombre de places disponibles.
                 </p>
               </div>

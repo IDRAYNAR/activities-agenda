@@ -50,9 +50,10 @@ export default async function MyActivitiesPage() {
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         {activities.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-sm text-gray-500">Vous n'avez pas encore créé d'activités.</p>
+            <p className="text-sm text-gray-500">Vous n&apos;avez pas encore créé d&apos;activités.</p>
             <Link
               href="/dashboard/activities/new"
+
               className="mt-4 inline-flex items-center text-sm text-violet-600 hover:text-violet-500"
             >
               Commencer à créer une activité

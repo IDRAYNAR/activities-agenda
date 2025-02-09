@@ -124,7 +124,7 @@ export default function ActivityList({
       
       {activities.length === 0 && (
         <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-          <p className="text-gray-500">Vous n'avez pas encore réservé d'activités.</p>
+          <p className="text-gray-500">Vous n&apos;avez pas encore réservé d&apos;activités.</p>
         </div>
       )}
     </div>

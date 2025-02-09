@@ -4,15 +4,7 @@ import { ActivityFilters } from '@/app/components/ActivityFilters';
 import { CalendarIcon, ClockIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Pagination } from '@/app/components/Pagination';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Prisma } from '@prisma/client';
-
-interface SearchParams {
-  query?: string;
-  type?: string;
-  page?: string;
-}
 
 export default async function ActivitiesPage({
   searchParams,
