@@ -1,71 +1,83 @@
+// Configuration du générateur Prisma Client
 generator client {
   provider = "prisma-client-js"
 }
 
+// Configuration de la source de données
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+// Modèle Utilisateur
+// Gère les informations des utilisateurs et leurs rôles
 model User {
   id                String        @id @default(cuid())
-  firstName         String
-  lastName          String
-  email             String        @unique
-  password          String
-  role              Role         @default(USER)
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  reservations      Reservation[]
-  organizedActivities Activity[]  @relation("Organizer")
+  firstName         String        // Prénom
+  lastName          String        // Nom
+  email             String        @unique // Email unique
+  password          String        // Mot de passe hashé
+  role              Role         @default(USER) // Rôle par défaut: USER
+  createdAt         DateTime     @default(now()) // Date de création
+  updatedAt         DateTime     @updatedAt // Date de mise à jour
+  reservations      Reservation[] // Relation avec les réservations
+  organizedActivities Activity[]  @relation("Organizer") // Activités organisées
 }
 
+// Modèle Réservation
+// Gère les réservations des utilisateurs pour les activités
 model Reservation {
   id          String    @id @default(cuid())
-  userId      String
-  activityId  Int
-  status      ReservationStatus @default(PENDING)
-  createdAt   DateTime  @default(now())
+  userId      String    // ID de l'utilisateur
+  activityId  Int       // ID de l'activité
+  status      ReservationStatus @default(PENDING) // Statut de la réservation
+  createdAt   DateTime  @default(now()) // Date de création
   user        User      @relation(fields: [userId], references: [id])
   activity    Activity  @relation(fields: [activityId], references: [id])
 }
 
+// Modèle Activité
+// Gère les informations des activités
 model Activity {
   id            Int          @id @default(autoincrement())
-  name          String
-  description   String?
-  startTime     DateTime
-  duration      Int
-  available     Int
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  address       String
-  latitude      Float
-  longitude     Float
+  name          String       // Nom de l'activité
+  description   String?      // Description (optionnelle)
+  startTime     DateTime     // Date et heure de début
+  duration      Int          // Durée en minutes
+  available     Int          // Nombre de places disponibles
+  createdAt     DateTime     @default(now()) // Date de création
+  updatedAt     DateTime     @updatedAt // Date de mise à jour
+  address       String       // Adresse de l'activité
+  latitude      Float        // Latitude pour la localisation
+  longitude     Float        // Longitude pour la localisation
   type          ActivityType @relation(fields: [typeId], references: [id])
-  typeId        Int
-  organizer     User         @relation("Organizer", fields: [organizerId], references: [id])
-  organizerId   String
-  reservations  Reservation[]
+  typeId        Int         // ID du type d'activité
+  organizer     User        @relation("Organizer", fields: [organizerId], references: [id])
+  organizerId   String      // ID de l'organisateur
+  reservations  Reservation[] // Relation avec les réservations
 
   @@index([organizerId])
   @@index([typeId])
 }
 
+// Modèle Type d'Activité
+// Catégorisation des activités
 model ActivityType {
   id          Int       @id @default(autoincrement())
-  name        String    @unique
-  description String
-  activities  Activity[]
+  name        String    @unique // Nom unique du type
+  description String    // Description du type
+  activities  Activity[] // Relation avec les activités
 }
 
+// Énumération des rôles utilisateur
 enum Role {
-  USER
-  ADMIN
+  USER    // Utilisateur standard
+  ADMIN   // Administrateur
 }
 
+// Énumération des statuts de réservation
 enum ReservationStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
+  PENDING    // En attente
+  CONFIRMED  // Confirmée
+  CANCELLED  // Annulée
 } 

@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Correction des icônes Leaflet pour Next.js
+// Configuration de l'icône du marqueur personnalisé
 const icon = L.icon({
   iconUrl: '/images/marker-icon.png',
   iconRetinaUrl: '/images/marker-icon-2x.png',
@@ -16,6 +16,7 @@ const icon = L.icon({
   shadowSize: [41, 41]
 });
 
+// Interface pour les props du composant
 interface ActivityMapProps {
   latitude: number;
   longitude: number;
@@ -25,7 +26,8 @@ interface ActivityMapProps {
 
 export default function ActivityMap({ latitude, longitude, address, name }: ActivityMapProps) {
   useEffect(() => {
-    // Fix pour les icônes en SSR
+    // Correction des icônes Leaflet pour Next.js
+    // Cette configuration est nécessaire pour le bon fonctionnement des icônes en SSR
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -37,16 +39,19 @@ export default function ActivityMap({ latitude, longitude, address, name }: Acti
 
   return (
     <div className="h-[400px] w-full rounded-lg overflow-hidden">
+      {/* Conteneur de la carte avec configuration initiale */}
       <MapContainer
         center={[latitude, longitude]}
         zoom={15}
         scrollWheelZoom={false}
         style={{ height: '100%', width: '100%' }}
       >
+        {/* Couche de tuiles OpenStreetMap */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {/* Marqueur de l'activité avec popup */}
         <Marker position={[latitude, longitude]} icon={icon}>
           <Popup>
             <div className="text-sm">

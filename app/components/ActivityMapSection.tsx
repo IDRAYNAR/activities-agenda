@@ -1,8 +1,11 @@
+// Composant de carte pour afficher la localisation d'une activité
+// Utilise Leaflet en mode client-side uniquement
 'use client';
 
 import dynamic from 'next/dynamic';
 import { MapPinIcon } from '@heroicons/react/24/outline';
 
+// Chargement dynamique de la carte pour éviter les problèmes de SSR
 const ActivityMap = dynamic(() => import('@/app/components/ActivityMap'), {
   ssr: false,
   loading: () => (
@@ -10,6 +13,7 @@ const ActivityMap = dynamic(() => import('@/app/components/ActivityMap'), {
   ),
 });
 
+// Interface pour les props du composant
 interface ActivityMapSectionProps {
   latitude: number;
   longitude: number;
@@ -17,14 +21,25 @@ interface ActivityMapSectionProps {
   name: string;
 }
 
-export function ActivityMapSection(props: ActivityMapSectionProps) {
+// Composant principal qui affiche la carte et l'adresse
+export function ActivityMapSection({ latitude, longitude, address, name }: ActivityMapSectionProps) {
   return (
-    <div className="mt-6 border-t border-gray-200 pt-6">
-      <div className="flex items-center mb-4">
-        <MapPinIcon className="h-5 w-5 text-gray-400" />
-        <span className="ml-2 text-gray-700">{props.address}</span>
+    <div>
+      {/* Affichage de l'adresse avec une icône */}
+      <div className="flex items-center mb-4 text-gray-700">
+        <MapPinIcon className="h-5 w-5 mr-2" />
+        <span>{address}</span>
       </div>
-      <ActivityMap {...props} />
+      
+      {/* Carte interactive */}
+      <div className="h-[400px] rounded-lg overflow-hidden">
+        <ActivityMap
+          latitude={latitude}
+          longitude={longitude}
+          address={address}
+          name={name}
+        />
+      </div>
     </div>
   );
 } 

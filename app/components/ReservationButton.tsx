@@ -1,9 +1,12 @@
+// Composant de bouton de réservation
+// Gère l'état et la logique de réservation d'une activité
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
+// Interface pour les props du composant
 type ReservationButtonProps = {
   activityId: number;
   available: number;
@@ -11,12 +14,15 @@ type ReservationButtonProps = {
 };
 
 export function ReservationButton({ activityId, available, isRegistered }: ReservationButtonProps) {
+  // État local pour gérer le chargement
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: session, status } = useSession();
 
+  // Gestion de la réservation
   const handleReservation = async () => {
+    // Redirection vers la page de connexion si l'utilisateur n'est pas authentifié
     if (status === 'unauthenticated') {
       router.push('/login');
       return;
@@ -24,6 +30,7 @@ export function ReservationButton({ activityId, available, isRegistered }: Reser
 
     try {
       setIsLoading(true);
+      // Appel à l'API pour créer la réservation
       const response = await fetch('/api/reservations', {
         method: 'POST',
         headers: {
@@ -38,6 +45,7 @@ export function ReservationButton({ activityId, available, isRegistered }: Reser
         throw new Error(data.error || 'Erreur lors de la réservation');
       }
 
+      // Rafraîchissement de la page pour afficher la mise à jour
       router.refresh();
     } catch (error) {
       console.error('Erreur:', error);
@@ -47,6 +55,7 @@ export function ReservationButton({ activityId, available, isRegistered }: Reser
     }
   };
 
+  // Affichage si l'utilisateur est déjà inscrit
   if (isRegistered) {
     return (
       <button
@@ -58,6 +67,7 @@ export function ReservationButton({ activityId, available, isRegistered }: Reser
     );
   }
 
+  // Affichage si l'activité est complète
   if (available <= 0) {
     return (
       <button
@@ -69,6 +79,7 @@ export function ReservationButton({ activityId, available, isRegistered }: Reser
     );
   }
 
+  // Bouton de réservation standard
   return (
     <button
       onClick={handleReservation}
