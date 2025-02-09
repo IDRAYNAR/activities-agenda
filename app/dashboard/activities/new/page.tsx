@@ -180,7 +180,7 @@ export default function NewActivityPage() {
                 name="name"
                 id="name"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
               />
             </div>
 
@@ -193,7 +193,7 @@ export default function NewActivityPage() {
 
                 id="typeId"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
               >
                 <option value="">Sélectionnez un type</option>
                 {types.map((type) => (
@@ -214,7 +214,7 @@ export default function NewActivityPage() {
                 id="available"
                 min="1"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
               />
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function NewActivityPage() {
               id="description"
               rows={3}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
               placeholder="Décrivez votre activité..."
             />
           </div>
@@ -248,7 +248,7 @@ export default function NewActivityPage() {
                 name="startTime"
                 id="startTime"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
               />
             </div>
 
@@ -264,7 +264,7 @@ export default function NewActivityPage() {
                 step="1"
                 required
                 placeholder="Ex: 60"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
               />
             </div>
           </div>
@@ -285,7 +285,7 @@ export default function NewActivityPage() {
                   name="address"
                   id="address"
                   placeholder="Saisissez une adresse..."
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
                 />
                 <button
                   type="button"
@@ -313,7 +313,7 @@ export default function NewActivityPage() {
                   name="latitude"
                   id="latitude"
                   readOnly
-                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
                 />
               </div>
               <div>
@@ -325,7 +325,7 @@ export default function NewActivityPage() {
                   name="longitude"
                   id="longitude"
                   readOnly
-                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:text-gray-800"
                 />
               </div>
             </div>

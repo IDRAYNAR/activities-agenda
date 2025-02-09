@@ -71,7 +71,7 @@ export default async function ActivitiesPage({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Découvrez nos activités</h1>
+        <h1 className="text-3xl font-bold dark:text-gray-800">Découvrez nos activités</h1>
         
         <div className="space-y-4">
           <SearchActivities />
