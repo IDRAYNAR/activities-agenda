@@ -107,6 +107,11 @@ export default function LoginPage() {
                 S&apos;inscrire
               </Link>
             </div>
+            <div className="text-center text-sm text-gray-600">
+              <Link href="/forgot-password" className="font-medium text-violet-600 hover:text-violet-500">
+                Mot de passe oublié ?
+              </Link>
+            </div>
           </form>
         </div>
       </div>

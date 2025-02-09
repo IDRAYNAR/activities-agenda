@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { FiUser, FiMail, FiEdit2, FiTrash2, FiSave, FiX } from "react-icons/fi";
-import toast, { Toaster } from "react-hot-toast";
+import { FiEdit2, FiTrash2, FiSave, FiX } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const router = useRouter();
   const { data: session, update } = useSession();
   const [isEditing, setIsEditing] = useState(false);
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: session?.user?.firstName || "",
@@ -128,6 +129,27 @@ export default function ProfilePage() {
     }
   };
 
+  const handlePasswordReset = async () => {
+    try {
+      const res = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: session?.user?.email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Une erreur est survenue');
+      }
+
+      toast.success('Un email de réinitialisation a été envoyé');
+      setShowPasswordReset(false);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Une erreur est survenue');
+    }
+  };
+
   if (!session) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -139,30 +161,42 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Toaster position="top-center" />
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          {/* En-tête du profil */}
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-8">
-            <div className="flex items-center space-x-4">
-              <div className="h-20 w-20 rounded-full bg-white/30 flex items-center justify-center">
-                <FiUser className="h-10 w-10 text-white" />
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Profile Section */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Profil</h2>
+            {!isEditing ? (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-md hover:bg-violet-700"
+              >
+                <FiEdit2 className="mr-2" />
+                Modifier
+              </button>
+            ) : (
+              <div className="flex space-x-3">
+                <button
+                  type="submit"
+                  form="profile-form"
+                  className="flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+                >
+                  <FiSave className="mr-2" />
+                  Enregistrer
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  <FiX className="mr-2" />
+                  Annuler
+                </button>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-white">
-                  {session.user?.firstName} {session.user?.lastName}
-                </h1>
-                <p className="text-blue-100 flex items-center">
-                  <FiMail className="mr-2" />
-                  {session.user?.email}
-                </p>
-              </div>
-            </div>
+            )}
           </div>
 
-          {/* Formulaire */}
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <form id="profile-form" onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Prénom</label>
@@ -230,47 +264,47 @@ export default function ProfilePage() {
                 </div>
               </div>
             )}
+          </form>
+        </div>
 
-            <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-              {!isEditing ? (
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <FiEdit2 className="mr-2 -ml-1 h-4 w-4" />
-                  Modifier
-                </button>
-              ) : (
-                <div className="flex space-x-3">
-                  <button
-                    type="submit"
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
-                    <FiSave className="mr-2 -ml-1 h-4 w-4" />
-                    Enregistrer
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    <FiX className="mr-2 -ml-1 h-4 w-4" />
-                    Annuler
-                  </button>
-                </div>
-              )}
+        {/* Security Section */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Sécurité</h2>
+            <button
+              onClick={() => setShowPasswordReset(!showPasswordReset)}
+              className="text-sm text-violet-600 hover:text-violet-500 font-medium"
+            >
+              {showPasswordReset ? 'Masquer' : 'Réinitialiser le mot de passe'}
+            </button>
+          </div>
 
+          {showPasswordReset && (
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-600 mb-4">
+                Nous enverrons un lien de réinitialisation à votre adresse email : 
+                <span className="font-medium ml-1">{session?.user?.email}</span>
+              </p>
               <button
-                type="button"
-                onClick={handleDeleteAccount}
-                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                onClick={handlePasswordReset}
+                className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-md hover:bg-violet-700"
               >
-                <FiTrash2 className="mr-2 -ml-1 h-4 w-4" />
-                Supprimer le compte
+                Envoyer le lien de réinitialisation
               </button>
             </div>
-          </form>
+          )}
+        </div>
+
+        {/* Delete Account Section */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Supprimer le compte</h2>
+          <button
+            onClick={handleDeleteAccount}
+            className="flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+          >
+            <FiTrash2 className="mr-2" />
+            Supprimer le compte
+          </button>
         </div>
       </div>
     </div>

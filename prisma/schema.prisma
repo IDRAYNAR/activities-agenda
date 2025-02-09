@@ -22,6 +22,8 @@ model User {
   updatedAt         DateTime     @updatedAt // Date de mise à jour
   reservations      Reservation[] // Relation avec les réservations
   organizedActivities Activity[]  @relation("Organizer") // Activités organisées
+  resetToken        String?       @unique
+  resetTokenExpiry  DateTime?
 }
 
 // Modèle Réservation
