@@ -1,79 +1,52 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import UserMenu from './UserMenu';
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const isLoading = status === 'loading';
 
   return (
-    <nav className="bg-indigo-600">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link href="/" className="text-white font-bold text-xl">
+    <header className="bg-white shadow-sm">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
+        <div className="flex items-center gap-x-12">
+          <Link href="/" className="-m-1.5 p-1.5 text-xl font-semibold text-violet-600">
+            Activiz
+          </Link>
+          <div className="hidden lg:flex lg:gap-x-6">
+            <Link 
+              href="/activities" 
+              className="text-sm font-semibold leading-6 text-gray-900 hover:text-violet-600"
+            >
               Activités
             </Link>
-            <div className="hidden md:block ml-10">
-              <div className="flex items-baseline space-x-4">
-                <Link
-                  href="/"
-                  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Accueil
-                </Link>
-                <Link
-                  href="/activities"
-                  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Activités
-                </Link>
-                {session?.user?.role === 'ADMIN' && (
-                  <Link
-                    href="/dashboard"
-                    className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Dashboard
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center">
-            {isLoading ? (
-              <div className="text-white">Chargement...</div>
-            ) : session ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-white">
-                  Bonjour, {session.user?.name}
-                </span>
-                <button
-                  onClick={() => signOut()}
-                  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Déconnexion
-                </button>
-              </div>
-            ) : (
-              <div className="space-x-4">
-                <Link
-                  href="/login"
-                  className="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Connexion
-                </Link>
-                <Link
-                  href="/register"
-                  className="bg-white text-indigo-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Inscription
-                </Link>
-              </div>
-            )}
           </div>
         </div>
-      </div>
-    </nav>
+        <div className="flex items-center gap-x-6">
+          {isLoading ? (
+            <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200" />
+          ) : session ? (
+            <UserMenu userName={`${session.user?.name}`} />
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-sm font-semibold leading-6 text-gray-900 hover:text-violet-600"
+              >
+                Connexion
+              </Link>
+              <Link
+                href="/register"
+                className="rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+              >
+                Inscription
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
   );
 } 

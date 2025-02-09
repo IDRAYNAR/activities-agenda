@@ -17,34 +17,44 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   reservations  Reservation[]
+  activities    Activity[]
 }
 
 model Reservation {
   id          String    @id @default(cuid())
   userId      String
-  activityId  String
+  activityId  Int
   status      ReservationStatus @default(PENDING)
   createdAt   DateTime  @default(now())
   user        User      @relation(fields: [userId], references: [id])
   activity    Activity  @relation(fields: [activityId], references: [id])
 }
 
+
 model Activity {
-  id          String    @id @default(cuid())
+  id          Int          @id @default(autoincrement())
   name        String
-  typeId      String
-  available   Int
-  description String
+  description String?
   startTime   DateTime
   duration    Int
+  available   Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  address     String
+  latitude    Float
+  longitude   Float
   type        ActivityType @relation(fields: [typeId], references: [id])
+  typeId      Int
+  organizer   User         @relation(fields: [organizerId], references: [id])
+  organizerId String
   reservations Reservation[]
 }
 
 model ActivityType {
-  id        String    @id @default(cuid())
-  name      String
-  activities Activity[]
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String
+  activities  Activity[]
 }
 
 enum Role {
