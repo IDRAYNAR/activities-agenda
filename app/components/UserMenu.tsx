@@ -20,7 +20,7 @@ export default function UserMenu({ userName }: { userName: string }) {
       <div>
         <Menu.Button className="flex items-center max-w-xs text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
           <span className="sr-only">Ouvrir le menu utilisateur</span>
-          <div className="flex items-center space-x-2 text-gray-900">
+          <div className="flex items-center space-x-2 text-gray-900 dark:text-white">
             <UserCircleIcon className="h-8 w-8" />
             <span>{userName}</span>
           </div>
@@ -35,14 +35,14 @@ export default function UserMenu({ userName }: { userName: string }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none">
           <Menu.Item>
             {({ active }: { active: boolean }) => (
               <Link
                 href="/profile"
                 className={classNames(
-                  active ? 'bg-gray-100' : '',
-                  'block px-4 py-2 text-sm text-gray-700'
+                  active ? 'bg-gray-100 dark:bg-gray-700' : '',
+                  'block px-4 py-2 text-sm text-gray-700 dark:text-gray-300'
                 )}
               >
                 Mon profil
@@ -54,8 +54,8 @@ export default function UserMenu({ userName }: { userName: string }) {
               <Link
                 href="/dashboard"
                 className={classNames(
-                  active ? 'bg-gray-100' : '',
-                  'block px-4 py-2 text-sm text-gray-700'
+                  active ? 'bg-gray-100 dark:bg-gray-700' : '',
+                  'block px-4 py-2 text-sm text-gray-700 dark:text-gray-300'
                 )}
               >
                 Tableau de bord
@@ -67,8 +67,8 @@ export default function UserMenu({ userName }: { userName: string }) {
               <button
                 onClick={() => signOut()}
                 className={classNames(
-                  active ? 'bg-gray-100' : '',
-                  'block w-full text-left px-4 py-2 text-sm text-gray-700'
+                  active ? 'bg-gray-100 dark:bg-gray-700' : '',
+                  'block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300'
                 )}
               >
                 Déconnexion

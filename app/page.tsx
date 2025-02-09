@@ -43,10 +43,10 @@ export default async function HomePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-          Bienvenue sur <span className="text-violet-600">notre plateforme d&apos;activités</span>
+        <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+          Bienvenue sur <span className="text-violet-600 dark:text-violet-400">notre plateforme d&apos;activités</span>
         </h1>
-        <p className="mt-6 text-lg leading-8 text-gray-600">
+        <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
           Découvrez et réservez facilement vos activités préférées. Sports, loisirs et bien plus encore vous attendent !
         </p>
       </div>
@@ -56,7 +56,7 @@ export default async function HomePage() {
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold mb-8">Activités populaires</h2>
+        <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">Activités populaires</h2>
         <FeaturedActivitiesWrapper activities={featuredActivities} />
       </div>
     </div>

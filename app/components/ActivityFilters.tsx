@@ -24,8 +24,8 @@ export function ActivityFilters({ types }: { types: ActivityType[] }) {
         onClick={() => handleFilterChange('all')}
         className={`rounded-full px-4 py-2 text-sm font-medium ${
           !searchParams?.get('type')
-            ? 'bg-violet-600 text-white'
-            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            ? 'bg-violet-600 dark:bg-violet-700 text-white'
+            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
         }`}
       >
         Toutes
@@ -36,8 +36,8 @@ export function ActivityFilters({ types }: { types: ActivityType[] }) {
           onClick={() => handleFilterChange(type.id)}
           className={`rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap ${
             searchParams?.get('type') === type.id.toString()
-              ? 'bg-violet-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              ? 'bg-violet-600 dark:bg-violet-700 text-white'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
           }`}
         >
           {type.name}

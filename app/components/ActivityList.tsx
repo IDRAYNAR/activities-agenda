@@ -68,7 +68,7 @@ export default function ActivityList({
       {activities.map((activity) => (
         <div 
           key={activity.id}
-          className="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 hover:ring-violet-500 transition-all"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 hover:ring-violet-500 dark:hover:ring-violet-400 transition-all"
         >
           <div className="p-6">
             <div className="flex items-center justify-between">
@@ -76,33 +76,33 @@ export default function ActivityList({
                 <div className="flex items-center justify-between mb-2">
                   <Link 
                     href={`/activities/${activity.id}`}
-                    className="text-lg font-medium text-gray-900 hover:text-violet-600"
+                    className="text-lg font-medium text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     {activity.name}
                   </Link>
-                  <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800">
+                  <span className="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900 px-2.5 py-0.5 text-xs font-medium text-violet-800 dark:text-violet-200">
                     {activity.type.name}
                   </span>
                 </div>
                 
-                <p className="text-sm text-gray-500 line-clamp-2 mb-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">
                   {activity.description}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="flex items-center text-sm text-gray-500">
-                    <CalendarIcon className="h-5 w-5 text-gray-400 mr-2" />
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                    <CalendarIcon className="h-5 w-5 text-gray-400 dark:text-gray-500 mr-2" />
                     <span>{formatDate(activity.startTime)}</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <ClockIcon className="h-5 w-5 text-gray-400 mr-2" />
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                    <ClockIcon className="h-5 w-5 text-gray-400 dark:text-gray-500 mr-2" />
                     <span>{new Date(activity.startTime).toLocaleTimeString('fr-FR', {
                       hour: '2-digit',
                       minute: '2-digit',
                     })} - {activity.duration} min</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <MapPinIcon className="h-5 w-5 text-gray-400 mr-2" />
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                    <MapPinIcon className="h-5 w-5 text-gray-400 dark:text-gray-500 mr-2" />
                     <span className="truncate">{activity.address}</span>
                   </div>
                 </div>
@@ -112,7 +112,7 @@ export default function ActivityList({
                 <button
                   onClick={() => handleCancelReservation(activity.id)}
                   disabled={loadingId === activity.id}
-                  className="inline-flex items-center px-4 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-wait transition-colors"
+                  className="inline-flex items-center px-4 py-2 border border-red-300 dark:border-red-700 text-sm font-medium rounded-md text-red-700 dark:text-red-400 bg-white dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-red-400 disabled:opacity-50 disabled:cursor-wait transition-colors"
                 >
                   {loadingId === activity.id ? 'Annulation...' : 'Se désinscrire'}
                 </button>
@@ -123,8 +123,8 @@ export default function ActivityList({
       ))}
       
       {activities.length === 0 && (
-        <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-          <p className="text-gray-500">Vous n&apos;avez pas encore réservé d&apos;activités.</p>
+        <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+          <p className="text-gray-500 dark:text-gray-400">Vous n&apos;avez pas encore réservé d&apos;activités.</p>
         </div>
       )}
     </div>

@@ -22,12 +22,12 @@ export function SearchActivities() {
   return (
     <div className="relative">
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+        <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
       </div>
       <input
         type="text"
         placeholder="Rechercher une activité..."
-        className="block w-full rounded-lg border-0 py-3 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-600 sm:text-sm"
+        className="block w-full rounded-lg border-0 py-3 pl-10 pr-4 text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-violet-600 dark:focus:ring-violet-500 sm:text-sm"
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams?.get('query')?.toString()}
       />
