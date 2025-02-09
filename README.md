@@ -7,7 +7,9 @@ Une application web moderne de gestion d'activités et de réservations dévelop
 - **IDRI RAYAN** - Développeur Full Stack - [GitHub](https://github.com/IDRAYNAR)
 - **QUINONES ESTEBAN** - Développeur Full Stack - [GitHub](https://github.com/EstebanQui)
 
-⚠️ **IMPORTANT** : Cette application utilise une base de données Neon PostgreSQL avec un plan gratuit. En raison des limitations de stockage de ce plan, certaines fonctionnalités pourraient être affectées si la limite est atteinte. Si vous rencontrez des problèmes, veuillez me contacter à rayan.idri@edu.devinci.fr pour que je puisse migrer vers une nouvelle base de données. À l'heure actuelle, toutes les fonctionnalités sont opérationnelles.
+## ⚠️ **IMPORTANT**
+
+Cette application utilise une base de données Neon PostgreSQL avec un plan gratuit. En raison des limitations de stockage de ce plan, certaines fonctionnalités pourraient être affectées si la limite est atteinte. Si vous rencontrez des problèmes, veuillez me contacter à rayan.idri@edu.devinci.fr pour que je puisse migrer vers une nouvelle base de données. À l'heure actuelle, toutes les fonctionnalités sont opérationnelles.
 
 ## 🎯 À propos du projet
 
