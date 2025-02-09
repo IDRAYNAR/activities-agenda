@@ -5,6 +5,8 @@ import { CalendarIcon, ClockIcon, UserGroupIcon } from '@heroicons/react/24/outl
 import Link from 'next/link';
 import { Pagination } from '@/app/components/Pagination';
 import { Prisma } from '@prisma/client';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -30,6 +32,8 @@ export default async function ActivitiesPage({
     ]
   };
 
+  const session = await getServerSession(authOptions);
+
   const [activities, total, types] = await Promise.all([
     prisma.activity.findMany({
       where,
@@ -44,7 +48,20 @@ export default async function ActivitiesPage({
             lastName: true
           }
         },
-        reservations: true
+        reservations: {
+          include: {
+            user: {
+              select: {
+                email: true
+              }
+            }
+          }
+        },
+        _count: {
+          select: {
+            reservations: true
+          }
+        }
       }
     }),
     prisma.activity.count({ where }),
@@ -64,7 +81,10 @@ export default async function ActivitiesPage({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {activities.map((activity) => {
             const isFullyBooked = activity.available <= 0;
-            const isRegistered = activity.reservations.length > 0;
+            const isRegistered = session ? 
+              activity._count.reservations > 0 && 
+              activity.reservations.some(r => r.user.email === session.user?.email) 
+              : false;
             
             return (
               <Link

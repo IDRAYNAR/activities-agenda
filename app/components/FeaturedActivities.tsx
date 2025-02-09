@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Activity, ActivityType } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 
 type ActivityWithDetails = Activity & {
   type: ActivityType;
@@ -13,11 +14,16 @@ type ActivityWithDetails = Activity & {
 };
 
 export function FeaturedActivities({ activities }: { activities: ActivityWithDetails[] }) {
+  const { data: session } = useSession();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
       {activities.map((activity) => {
         const isFullyBooked = activity.available <= 0;
-        const isRegistered = activity.reservations.length > 0;
+        const isRegistered = session ? 
+          activity._count.reservations > 0 && 
+          activity.reservations.some(r => r.user.email === session.user?.email) 
+          : false;
 
         return (
           <Link

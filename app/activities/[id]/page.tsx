@@ -47,9 +47,15 @@ export default async function ActivityPage({ params }: Props) {
             }
           }
         }
+      },
+      _count: {
+        select: {
+          reservations: true
+        }
       }
     }
   });
+
 
   // Redirection vers 404 si l'activité n'existe pas
   if (!activity) {
@@ -58,6 +64,12 @@ export default async function ActivityPage({ params }: Props) {
 
   // Calcul des places restantes
   const remainingSpots = activity.available;
+
+  // Ajouter cette vérification avant d'afficher "Inscrit"
+  const isRegistered = session ? 
+    activity._count.reservations > 0 && 
+    activity.reservations.some(r => r.user.email === session.user?.email) 
+    : false;
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -139,9 +151,7 @@ export default async function ActivityPage({ params }: Props) {
                 <ReservationButton
                   activityId={activity.id}
                   available={activity.available}
-                  isRegistered={activity.reservations.some(
-                    reservation => reservation.user.email === session?.user?.email
-                  )}
+                  isRegistered={isRegistered}
                 />
               </div>
             </div>

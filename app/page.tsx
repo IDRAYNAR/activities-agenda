@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
-import { FeaturedActivities } from './components/FeaturedActivities';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
+import FeaturedActivitiesWrapper from './components/FeaturedActivitiesWrapper';
 
 export const metadata: Metadata = {
   title: 'Accueil - Réservation d\'activités',
@@ -69,7 +69,7 @@ export default async function HomePage() {
 
       <div>
         <h2 className="text-2xl font-bold mb-8">Activités populaires</h2>
-        <FeaturedActivities activities={featuredActivities} />
+        <FeaturedActivitiesWrapper activities={featuredActivities} />
       </div>
     </div>
   );
