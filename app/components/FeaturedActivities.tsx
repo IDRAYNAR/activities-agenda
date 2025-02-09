@@ -29,35 +29,36 @@ export function FeaturedActivities({ activities }: { activities: ActivityWithDet
           <Link
             key={activity.id}
             href={`/activities/${activity.id}`}
-            className={`block bg-white dark:bg-gray-800 rounded-lg shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 hover:shadow-md transition-shadow ${
+            className={`block bg-white rounded-lg shadow-sm ring-1 ring-gray-200 hover:shadow-md transition-shadow ${
               isFullyBooked || isRegistered ? 'opacity-75' : ''
             }`}
           >
             <div className="p-6">
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900 px-2.5 py-0.5 text-xs font-medium text-violet-800 dark:text-violet-200">
+                <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800">
                   {activity.type.name}
                 </span>
                 {isRegistered ? (
-                  <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-200">
+                  <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
                     Inscrit
                   </span>
                 ) : isFullyBooked ? (
-                  <span className="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:text-red-200">
+                  <span className="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
                     Complet
                   </span>
                 ) : (
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+
+                  <span className="text-sm text-gray-500">
                     {activity.available} places disponibles
                   </span>
                 )}
               </div>
               
-              <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="mt-4 text-lg font-semibold text-gray-900">
                 {activity.name}
               </h3>
               
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+              <p className="mt-2 text-sm text-gray-600 line-clamp-2">
                 {activity.description}
               </p>
             </div>

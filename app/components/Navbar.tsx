@@ -27,7 +27,7 @@ export default function Navbar({ session }: NavbarProps) {
   const dashboardLink = getDashboardLink();
 
   return (
-    <nav className="bg-indigo-600 dark:bg-indigo-900">
+    <nav className="bg-indigo-600">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -40,16 +40,16 @@ export default function Navbar({ session }: NavbarProps) {
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link
                   href="/"
-                  className={`text-white hover:bg-indigo-700 dark:hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/' ? 'bg-indigo-700 dark:bg-indigo-800' : ''
+                  className={`text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === '/' ? 'bg-indigo-700' : ''
                   }`}
                 >
                   Accueil
                 </Link>
                 <Link
                   href="/activities"
-                  className={`text-white hover:bg-indigo-700 dark:hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/activities' ? 'bg-indigo-700 dark:bg-indigo-800' : ''
+                  className={`text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === '/activities' ? 'bg-indigo-700' : ''
                   }`}
                 >
                   Activités
@@ -57,8 +57,8 @@ export default function Navbar({ session }: NavbarProps) {
                 {dashboardLink && (
                   <Link
                     href={dashboardLink}
-                    className={`text-white hover:bg-indigo-700 dark:hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium ${
-                      pathname === dashboardLink ? 'bg-indigo-700 dark:bg-indigo-800' : ''
+                    className={`text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium ${
+                      pathname === dashboardLink ? 'bg-indigo-700' : ''
                     }`}
                   >
                     {session?.user?.role === 'ADMIN' ? 'Administration' : 'Tableau de bord'}
@@ -73,14 +73,14 @@ export default function Navbar({ session }: NavbarProps) {
                 <div className="flex items-center space-x-4">
                   <Link
                     href="/profile"
-                    className="flex items-center text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 dark:hover:bg-indigo-800"
+                    className="flex items-center text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
                   >
                     <FiUser className="h-5 w-5 mr-2" />
                     {session.user?.firstName} {session.user?.lastName}
                   </Link>
                   <button
                     onClick={() => signOut()}
-                    className="flex items-center text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 dark:hover:bg-indigo-800"
+                    className="flex items-center text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
                   >
                     <FiLogOut className="h-5 w-5 mr-2" />
                     Déconnexion
@@ -89,7 +89,7 @@ export default function Navbar({ session }: NavbarProps) {
               ) : (
                 <Link
                   href="/login"
-                  className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 dark:hover:bg-indigo-800"
+                  className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
                 >
                   Connexion
                 </Link>
@@ -100,7 +100,7 @@ export default function Navbar({ session }: NavbarProps) {
             <button
               onClick={toggleMobileMenu}
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-indigo-700 dark:hover:bg-indigo-800 focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-indigo-700 focus:outline-none"
             >
               <span className="sr-only">Ouvrir le menu principal</span>
               {isMobileMenuOpen ? (
@@ -118,7 +118,7 @@ export default function Navbar({ session }: NavbarProps) {
             <Link
               href="/"
               className={`text-white block px-3 py-2 rounded-md text-base font-medium ${
-                pathname === '/' ? 'bg-indigo-700 dark:bg-indigo-800' : ''
+                pathname === '/' ? 'bg-indigo-700' : ''
               }`}
             >
               Accueil
@@ -126,13 +126,13 @@ export default function Navbar({ session }: NavbarProps) {
             <Link
               href="/activities"
               className={`text-white block px-3 py-2 rounded-md text-base font-medium ${
-                pathname === '/activities' ? 'bg-indigo-700 dark:bg-indigo-800' : ''
+                pathname === '/activities' ? 'bg-indigo-700' : ''
               }`}
             >
               Activités
             </Link>
           </div>
-          <div className="pt-4 pb-3 border-t border-indigo-700 dark:border-indigo-800">
+          <div className="pt-4 pb-3 border-t border-indigo-700">
             {session ? (
               <>
                 <div className="flex items-center px-5">
@@ -151,13 +151,13 @@ export default function Navbar({ session }: NavbarProps) {
                 <div className="mt-3 px-2 space-y-1">
                   <Link
                     href="/profile"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-700 dark:hover:bg-indigo-800"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-700"
                   >
                     Profil
                   </Link>
                   <button
                     onClick={() => signOut()}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-700 dark:hover:bg-indigo-800"
+                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-700"
                   >
                     Déconnexion
                   </button>
@@ -166,7 +166,7 @@ export default function Navbar({ session }: NavbarProps) {
             ) : (
               <Link
                 href="/login"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-700 dark:hover:bg-indigo-800"
+                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-700"
               >
                 Connexion
               </Link>
