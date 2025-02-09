@@ -72,7 +72,7 @@ export function ReservationButton({ activityId, available, isRegistered }: Reser
     return (
       <button
         disabled
-        className="w-full rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-500 cursor-not-allowed"
+        className="w-full rounded-md bg-red-200 px-3 py-2 text-sm font-semibold text-red-800 cursor-not-allowed"
       >
         Complet
       </button>

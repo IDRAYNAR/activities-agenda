@@ -43,10 +43,11 @@ export function FeaturedActivities({ activities }: { activities: ActivityWithDet
                     Inscrit
                   </span>
                 ) : isFullyBooked ? (
-                  <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+                  <span className="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
                     Complet
                   </span>
                 ) : (
+
                   <span className="text-sm text-gray-500">
                     {activity.available} places disponibles
                   </span>

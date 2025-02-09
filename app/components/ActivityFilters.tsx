@@ -8,12 +8,12 @@ export function ActivityFilters({ types }: { types: ActivityType[] }) {
   const { replace } = useRouter();
   const pathname = usePathname();
 
-  const handleFilterChange = (typeId: string) => {
+  const handleFilterChange = (typeId: string | number) => {
     const params = new URLSearchParams(searchParams?.toString() || '');
     if (typeId === 'all') {
       params.delete('type');
     } else {
-      params.set('type', typeId);
+      params.set('type', typeId.toString());
     }
     replace(`${pathname}?${params.toString()}`);
   };
@@ -33,7 +33,7 @@ export function ActivityFilters({ types }: { types: ActivityType[] }) {
       {types.map((type) => (
         <button
           key={type.id}
-          onClick={() => handleFilterChange(type.id.toString())}
+          onClick={() => handleFilterChange(type.id)}
           className={`rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap ${
             searchParams?.get('type') === type.id.toString()
               ? 'bg-violet-600 text-white'
