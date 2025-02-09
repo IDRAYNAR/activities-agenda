@@ -7,7 +7,8 @@
     "build": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts",
+    "seed:reservations": "ts-node scripts/seed-reservations.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",

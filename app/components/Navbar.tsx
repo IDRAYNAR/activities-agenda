@@ -17,13 +17,21 @@ export default function Navbar() {
           </Link>
           <div className="hidden lg:flex lg:gap-x-6">
             <Link 
-              href="/activities" 
+              href="/" 
               className="text-sm font-semibold leading-6 text-gray-900 hover:text-violet-600"
             >
-              Activités
+              Accueil
+            </Link>
+            <Link 
+              href="/activities" 
+              className="text-sm font-semibold leading-6 text-gray-900 hover:text-violet-600"
+
+            >
+              Liste des activités
             </Link>
           </div>
         </div>
+
         <div className="flex items-center gap-x-6">
           {isLoading ? (
             <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200" />
