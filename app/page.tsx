@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import FeaturedActivitiesWrapper from './components/FeaturedActivitiesWrapper';
+import FeaturedCategories from './components/FeaturedCategories';
 
 export const metadata: Metadata = {
   title: 'Accueil - Réservation d\'activités',
@@ -51,20 +52,7 @@ export default async function HomePage() {
       </div>
 
       <div className="mb-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-200">
-            <h3 className="text-lg font-semibold mb-2">Sports</h3>
-            <p className="text-gray-600">Découvrez nos activités sportives pour tous les niveaux.</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-200">
-            <h3 className="text-lg font-semibold mb-2">Loisirs</h3>
-            <p className="text-gray-600">Des activités récréatives pour toute la famille.</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm ring-1 ring-gray-200">
-            <h3 className="text-lg font-semibold mb-2">Bien-être</h3>
-            <p className="text-gray-600">Prenez soin de vous avec nos activités de bien-être.</p>
-          </div>
-        </div>
+        <FeaturedCategories />
       </div>
 
       <div>
