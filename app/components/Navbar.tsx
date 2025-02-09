@@ -1,60 +1,88 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
-import UserMenu from './UserMenu';
+import { usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import { Session } from 'next-auth';
+import { FiUser, FiLogOut } from 'react-icons/fi';
 
-export default function Navbar() {
-  const { data: session, status } = useSession();
-  const isLoading = status === 'loading';
+interface NavbarProps {
+  session: Session | null;
+}
+
+export default function Navbar({ session }: NavbarProps) {
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    return pathname === path ? 'bg-indigo-700' : '';
+  };
 
   return (
-    <header className="bg-white shadow-sm">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
-        <div className="flex items-center gap-x-12">
-          <Link href="/" className="-m-1.5 p-1.5 text-xl font-semibold text-violet-600">
-            Activiz
-          </Link>
-          <div className="hidden lg:flex lg:gap-x-6">
-            <Link 
-              href="/" 
-              className="text-sm font-semibold leading-6 text-gray-900 hover:text-violet-600"
-            >
-              Accueil
-            </Link>
-            <Link 
-              href="/activities" 
-              className="text-sm font-semibold leading-6 text-gray-900 hover:text-violet-600"
-
-            >
-              Liste des activités
-            </Link>
+    <nav className="bg-indigo-600">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <Link href="/" className="text-white font-bold text-xl">
+                Activities Agenda
+              </Link>
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <Link
+                  href="/"
+                  className={`${isActive('/')} text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700`}
+                >
+                  Accueil
+                </Link>
+                <Link
+                  href="/activities"
+                  className={`${isActive('/activities')} text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700`}
+                >
+                  Activités
+                </Link>
+                {session ? (
+                  <Link
+                    href="/dashboard"
+                    className={`${isActive('/dashboard')} text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700`}
+                  >
+                    Tableau de bord
+                  </Link>
+                ) : null}
+              </div>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="ml-4 flex items-center md:ml-6">
+              {session ? (
+                <div className="flex items-center space-x-4">
+                  <Link
+                    href="/profile"
+                    className="flex items-center text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+                  >
+                    <FiUser className="h-5 w-5 mr-2" />
+                    {session.user?.firstName} {session.user?.lastName}
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="flex items-center text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+                  >
+                    <FiLogOut className="h-5 w-5 mr-2" />
+                    Déconnexion
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+                >
+                  Connexion
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-
-        <div className="flex items-center gap-x-6">
-          {isLoading ? (
-            <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200" />
-          ) : session ? (
-            <UserMenu userName={`${session.user?.name}`} />
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="text-sm font-semibold leading-6 text-gray-900 hover:text-violet-600"
-              >
-                Connexion
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
-              >
-                Inscription
-              </Link>
-            </>
-          )}
-        </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 } 

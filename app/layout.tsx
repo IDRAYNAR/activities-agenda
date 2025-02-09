@@ -1,7 +1,9 @@
-import { Inter, Outfit } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import "./globals.css";
-import Providers from "./components/Providers";
-import Navbar from "./components/Navbar";
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/route';
+import ClientLayout from './components/ClientLayout';
+import Providers from './components/Providers';
 import 'leaflet/dist/leaflet.css';
 
 const inter = Inter({ 
@@ -9,29 +11,25 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const outfit = Outfit({ 
-  subsets: ['latin'],
-  variable: '--font-outfit',
-});
-
 export const metadata = {
-  title: 'Activiz',
-  description: 'Découvrez et réservez des activités sportives, culturelles et de loisirs près de chez vous',
+  title: 'Activities Agenda',
+  description: 'Plateforme de réservation d\'activités',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
-    <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="fr" className={inter.variable}>
       <body className="min-h-screen bg-gray-50">
         <Providers>
-          <Navbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <ClientLayout session={session}>
             {children}
-          </main>
+          </ClientLayout>
         </Providers>
       </body>
     </html>
