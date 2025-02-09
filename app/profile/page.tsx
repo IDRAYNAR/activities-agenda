@@ -191,7 +191,7 @@ export default function ProfilePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="max-w-4xl mx-auto space-y-6">
         {/* Profile Section */}
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center justify-between mb-6">
@@ -235,7 +235,7 @@ export default function ProfilePage() {
                   value={formData.firstName}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-500 dark:text-gray-800"
                 />
               </div>
 
@@ -247,7 +247,7 @@ export default function ProfilePage() {
                   value={formData.lastName}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-500 dark:text-gray-800"
                 />
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function ProfilePage() {
                 value={formData.email}
                 onChange={handleChange}
                 disabled={!isEditing}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-500 dark:text-gray-800"
               />
             </div>
 
@@ -275,7 +275,7 @@ export default function ProfilePage() {
                     name="currentPassword"
                     value={formData.currentPassword}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-800"
                   />
                 </div>
 
@@ -288,7 +288,7 @@ export default function ProfilePage() {
                     name="newPassword"
                     value={formData.newPassword}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-800"
                   />
                 </div>
               </div>
@@ -297,43 +297,89 @@ export default function ProfilePage() {
         </div>
 
         {/* Security Section */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Sécurité</h2>
-            <button
-              onClick={() => setShowPasswordReset(!showPasswordReset)}
-              className="text-sm text-violet-600 hover:text-violet-500 font-medium"
-            >
-              {showPasswordReset ? 'Masquer' : 'Réinitialiser le mot de passe'}
-            </button>
-          </div>
-
-          {showPasswordReset && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600 mb-4">
-                Nous enverrons un lien de réinitialisation à votre adresse email : 
-                <span className="font-medium ml-1">{session?.user?.email}</span>
-              </p>
-              <button
-                onClick={handlePasswordReset}
-                className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-md hover:bg-violet-700"
-              >
-                Envoyer le lien de réinitialisation
-              </button>
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Sécurité</h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  Gérez vos paramètres de sécurité et votre mot de passe
+                </p>
+              </div>
             </div>
-          )}
+
+            <div className="border-t border-gray-200 -mx-6 px-6 py-4">
+              <div className="flex gap-4 items-center justify-between">
+                <div>
+                  <h3 className="text-base font-medium text-gray-900">Mot de passe</h3>
+                  <p className="mt-1 text-sm text-gray-500">
+
+                    Modifiez votre mot de passe pour sécuriser votre compte
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowPasswordReset(!showPasswordReset)}
+                  className="inline-flex items-center px-4 py-2 border border-violet-300 text-sm font-medium rounded-md text-violet-700 bg-white hover:bg-violet-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
+                >
+                  Réinitialiser le mot de passe
+                </button>
+              </div>
+
+              {showPasswordReset && (
+                <div className="mt-4 p-4 bg-violet-50 rounded-lg border border-violet-100">
+                  <div className="flex items-start">
+                    <div className="flex-grow">
+                      <p className="text-sm text-gray-600">
+                        Un email de réinitialisation sera envoyé à :
+                        <span className="block font-medium text-gray-900 mt-1">{session?.user?.email}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      onClick={handlePasswordReset}
+                      className="w-full sm:w-auto flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-md hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
+                    >
+                      Envoyer le lien de réinitialisation
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Delete Account Section */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Supprimer le compte</h2>
-          <button
-            onClick={handleDeleteAccount}
-            className="flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
-          >
-            <FiTrash2 className="mr-2" />
-            Supprimer le compte
-          </button>
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Supprimer le compte</h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  Supprimez définitivement votre compte et toutes vos données
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 -mx-6 px-6 py-4">
+              <div className="bg-red-50 rounded-lg p-4 border border-red-100">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-red-700">
+                      La suppression de votre compte est irréversible. Toutes vos données seront définitivement effacées.
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    <FiTrash2 className="mr-2 h-4 w-4" />
+                    Supprimer le compte
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
