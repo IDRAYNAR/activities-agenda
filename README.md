@@ -11,6 +11,8 @@ Une application web moderne de gestion d'activités et de réservations dévelop
 
 Cette application utilise une base de données Neon PostgreSQL avec un plan gratuit. En raison des limitations de stockage de ce plan, certaines fonctionnalités pourraient être affectées si la limite est atteinte. Si vous rencontrez des problèmes, veuillez me contacter à rayan.idri@edu.devinci.fr pour que je puisse migrer vers une nouvelle base de données. À l'heure actuelle, toutes les fonctionnalités sont opérationnelles.
 
+VIDEO DEMO DE L'APP (au cas ou la base de données ne fonctionne plus) : https://github.com/IDRAYNAR/activities-agenda/raw/refs/heads/main/DEMO_SITE.mp4
+
 ## Identifiant Administrateur
 
 Email: admin@admin.com
