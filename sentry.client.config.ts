@@ -17,7 +17,7 @@ Sentry.init({
   tracesSampleRate: 1.0, // Capture 100% of the transactions
   
   // Set tracePropagationTargets to your domain and API endpoints
-  tracePropagationTargets: ["activities-agenda.vercel.app", /^https:\/\/activities-agenda\.vercel\.app\/api/],
+  tracePropagationTargets: ["activities-agenda.vercel.app", /^https:\/\/activities-agenda\.vercel\.app\/api\/activities/],
   
   // Set profilesSampleRate to 1.0 to profile every transaction
   profilesSampleRate: 1.0,
