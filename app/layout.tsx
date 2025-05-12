@@ -16,7 +16,13 @@ const inter = Inter({
 export const metadata = {
   title: 'Activities Agenda',
   description: 'Plateforme de réservation d\'activités',
+  other: {
+    'Cache-Control': 'public, max-age=3600'
+  }
 };
+
+export const dynamic = 'force-static';
+export const revalidate = 3600;
 
 export default async function RootLayout({
   children,
