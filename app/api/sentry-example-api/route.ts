@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 
-// Changed from force-dynamic to allow caching
-export const dynamic = "force-static";
+// Revenir à force-dynamic car cette route est conçue pour générer des erreurs
+export const dynamic = "force-dynamic";
 
-// Add cache revalidation settings
-export const revalidate = 3600; // revalidate every hour
+// Supprimer la revalidation statique
+// export const revalidate = 3600;
 
 class SentryExampleAPIError extends Error {
   constructor(message: string | undefined) {
