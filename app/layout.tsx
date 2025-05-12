@@ -6,6 +6,7 @@ import ClientLayout from './components/ClientLayout';
 import Providers from './components/Providers';
 import 'leaflet/dist/leaflet.css';
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -31,8 +32,9 @@ export default async function RootLayout({
           <ClientLayout session={session}>
             {children}
           </ClientLayout>
+          <Analytics />
+          <SpeedInsights />
         </Providers>
-        <Analytics />
       </body>
     </html>
   );
