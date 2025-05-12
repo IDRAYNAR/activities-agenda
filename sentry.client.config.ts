@@ -8,6 +8,7 @@ Sentry.init({
   dsn: "https://1f6759c75107b5a3443ce3460c581d27@o4507622359171072.ingest.de.sentry.io/4509310130978896",
   
   integrations: [
+    Sentry.replayIntegration(),
     Sentry.browserTracingIntegration(),
     Sentry.browserProfilingIntegration()
   ],
@@ -22,5 +23,5 @@ Sentry.init({
   profilesSampleRate: 1.0,
   
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: false,
+  debug: true,
 }); 
