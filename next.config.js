@@ -7,6 +7,21 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: false,
   },
+  
+  // Ajout des en-têtes pour le profiling du navigateur
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Document-Policy",
+            value: "js-profiling",
+          },
+        ],
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig 
