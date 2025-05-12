@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import ClientLayout from './components/ClientLayout';
 import Providers from './components/Providers';
 import 'leaflet/dist/leaflet.css';
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -31,6 +32,7 @@ export default async function RootLayout({
             {children}
           </ClientLayout>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
