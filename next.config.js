@@ -8,7 +8,7 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   
-  // Ajout des en-têtes pour le profiling du navigateur
+  // Configuration des en-têtes pour le profiling et correction des Permissions-Policy
   async headers() {
     return [
       {
@@ -17,6 +17,10 @@ const nextConfig = {
           {
             key: "Document-Policy",
             value: "js-profiling",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
           },
         ],
       },
