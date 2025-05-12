@@ -5,23 +5,15 @@
 import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
-  dsn: "https://1f6759c75107b5a3443ce3460c581d27@o4507622359171072.ingest.de.sentry.io/4509310130978896",
+  dsn: "https://4a6e2dc39c9b910ba092626801f6e898@o4509310083137536.ingest.de.sentry.io/4509311496880208",
 
-  // Add all necessary integrations
+  // Add optional integrations for additional features
   integrations: [
     Sentry.replayIntegration(),
-    Sentry.browserTracingIntegration(),
-    Sentry.browserProfilingIntegration(),
   ],
 
-  // Tracing configuration
-  tracesSampleRate: 1.0, // Capture 100% of the transactions
-  
-  // Set tracePropagationTargets to your domain and API endpoints
-  tracePropagationTargets: ["activities-agenda.vercel.app", /^https:\/\/activities-agenda\.vercel\.app\/api/],
-  
-  // Set profilesSampleRate to 1.0 to profile every transaction
-  profilesSampleRate: 1.0,
+  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
+  tracesSampleRate: 1,
 
   // Define how likely Replay events are sampled.
   // This sets the sample rate to be 10%. You may want this to be 100% while

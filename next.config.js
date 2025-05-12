@@ -28,20 +28,20 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig
 
 // Injected content via Sentry wizard below
 
 const { withSentryConfig } = require("@sentry/nextjs");
 
 module.exports = withSentryConfig(
-  module.exports,
+  nextConfig, // Ensure the original config object is passed
   {
     // For all available options, see:
     // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-    org: "estebanqui",
-    project: "activite-agenda",
+    org: "idraynar",
+    project: "activities-agenda",
 
     // Only print logs for uploading source maps in CI
     silent: !process.env.CI,
