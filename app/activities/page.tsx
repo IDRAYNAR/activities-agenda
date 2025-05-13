@@ -8,18 +8,16 @@ import { Prisma } from '@prisma/client';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 
-interface SearchParams {
-  [key: string]: string | string[] | undefined;
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function ActivitiesPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const page = Number(searchParams.page) || 1;
-  const type = typeof searchParams.type === 'string' ? searchParams.type : undefined;
-  const query = typeof searchParams.query === 'string' ? searchParams.query : undefined;
+export default async function ActivitiesPage({ searchParams }: PageProps) {
+  const resolvedParams = await searchParams;
+  
+  const page = Number(resolvedParams.page) || 1;
+  const type = typeof resolvedParams.type === 'string' ? resolvedParams.type : undefined;
+  const query = typeof resolvedParams.query === 'string' ? resolvedParams.query : undefined;
 
   const where: Prisma.ActivityWhereInput = {
     AND: [
