@@ -68,7 +68,7 @@ export default function ActivityList({
       {activities.map((activity) => (
         <div 
           key={activity.id}
-          className="bg-white rounded-lg shadow-sm ring-1 ring-gray-200 hover:ring-violet-500 transition-all"
+          className="bg-white rounded-lg shadow-sm ring-1 ring-gray-300 hover:ring-violet-500 transition-all"
         >
           <div className="p-4 sm:p-6">
             <div className="flex flex-col space-y-4">
@@ -79,7 +79,7 @@ export default function ActivityList({
                 >
                   {activity.name}
                 </Link>
-                <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800 w-fit">
+                <span className="inline-flex items-center rounded-full bg-violet-700 px-2.5 py-0.5 text-xs font-medium text-white w-fit">
                   {activity.type.name}
                 </span>
               </div>
