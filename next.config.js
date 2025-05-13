@@ -24,7 +24,7 @@ const nextConfig = {
           },
           {
             key: "Cache-Control",
-            value: "public, max-age=300, must-revalidate",
+            value: "public, max-age=2678400, must-revalidate",
           },
         ],
       },
