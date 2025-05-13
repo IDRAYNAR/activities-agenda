@@ -27,6 +27,9 @@ module.exports = {
           800: '#5b21b6', // Plus foncé
           900: '#4c1d95', // Très foncé
         },
+        green: {
+          600: '#0A4C23', // Remplacer la couleur green-600 par la couleur avec un meilleur contraste
+        },
       },
     },
   },
