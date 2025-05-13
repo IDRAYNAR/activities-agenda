@@ -9,16 +9,15 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 
 type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export default async function ActivitiesPage({
   searchParams,
 }: Props) {
-  const resolvedSearchParams = await searchParams;
-  const page = Number(resolvedSearchParams.page) || 1;
-  const type = typeof resolvedSearchParams.type === 'string' ? resolvedSearchParams.type : undefined;
-  const query = typeof resolvedSearchParams.query === 'string' ? resolvedSearchParams.query : undefined;
+  const page = Number(searchParams.page) || 1;
+  const type = typeof searchParams.type === 'string' ? searchParams.type : undefined;
+  const query = typeof searchParams.query === 'string' ? searchParams.query : undefined;
 
   const where: Prisma.ActivityWhereInput = {
     AND: [
