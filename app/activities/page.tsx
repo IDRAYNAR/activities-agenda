@@ -96,7 +96,7 @@ export default async function ActivitiesPage({
               >
                 <div className="p-6">
                   <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center rounded-full bg-violet-700 px-2.5 py-0.5 text-xs font-medium text-white">
+                    <span className="inline-flex items-center rounded-full bg-violet-800 px-2.5 py-0.5 text-xs font-medium text-white">
                       {activity.type.name}
                     </span>
                     {isRegistered ? (
@@ -104,7 +104,7 @@ export default async function ActivitiesPage({
                         Inscrit
                       </span>
                     ) : isFullyBooked ? (
-                      <span className="inline-flex items-center rounded-full bg-red-700 px-2.5 py-0.5 text-xs font-medium text-white">
+                      <span className="inline-flex items-center rounded-full bg-red-800 px-2.5 py-0.5 text-xs font-medium text-white">
                         Complet
                       </span>
                     ) : (

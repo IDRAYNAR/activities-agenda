@@ -72,7 +72,7 @@ export default async function MyActivitiesPage() {
                         {activity.name}
                       </h2>
                       <div className="flex flex-wrap gap-2 items-center text-sm text-gray-500">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-700 text-white">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-800 text-white">
                           {activity.type.name}
                         </span>
                         <div className="flex items-center">

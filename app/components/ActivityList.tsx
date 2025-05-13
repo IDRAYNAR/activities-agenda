@@ -79,7 +79,7 @@ export default function ActivityList({
                 >
                   {activity.name}
                 </Link>
-                <span className="inline-flex items-center rounded-full bg-violet-700 px-2.5 py-0.5 text-xs font-medium text-white w-fit">
+                <span className="inline-flex items-center rounded-full bg-violet-800 px-2.5 py-0.5 text-xs font-medium text-white w-fit">
                   {activity.type.name}
                 </span>
               </div>
