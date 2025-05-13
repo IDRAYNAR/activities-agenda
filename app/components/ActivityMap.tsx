@@ -37,6 +37,12 @@ export default function ActivityMap({ latitude, longitude, address, name }: Acti
     });
   }, []);
 
+  if (typeof window === 'undefined') {
+    // Still a good practice to ensure it doesn't try to render on server
+    // even with ssr:false in dynamic import, for belt-and-suspenders.
+    return null;
+  }
+
   return (
     <div className="h-[400px] w-full rounded-lg overflow-hidden">
       {/* Conteneur de la carte avec configuration initiale */}

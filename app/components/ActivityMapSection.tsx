@@ -7,10 +7,8 @@ import { MapPinIcon } from '@heroicons/react/24/outline';
 
 // Chargement dynamique de la carte pour éviter les problèmes de SSR
 const ActivityMap = dynamic(() => import('@/app/components/ActivityMap'), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[400px] w-full bg-gray-100 rounded-lg animate-pulse" />
-  ),
+  loading: () => <p>Chargement de la carte...</p>,
+  ssr: false
 });
 
 // Interface pour les props du composant

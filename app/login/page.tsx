@@ -103,12 +103,12 @@ export default function LoginPage() {
             </div>
             <div className="text-center text-sm text-gray-600">
               Pas encore inscrit ?{' '}
-              <Link href="/register" className="font-medium text-violet-600 hover:text-violet-500">
+              <Link href="/register" prefetch={false} className="font-medium text-violet-600 hover:text-violet-500">
                 S&apos;inscrire
               </Link>
             </div>
             <div className="text-center text-sm text-gray-600">
-              <Link href="/forgot-password" className="font-medium text-violet-600 hover:text-violet-500">
+              <Link href="/forgot-password" prefetch={false} className="font-medium text-violet-600 hover:text-violet-500">
                 Mot de passe oublié ?
               </Link>
             </div>

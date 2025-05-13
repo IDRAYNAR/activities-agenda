@@ -90,6 +90,7 @@ export default async function ActivitiesPage({
               <Link
                 key={activity.id}
                 href={`/activities/${activity.id}`}
+                prefetch={false}
                 className={`block bg-white rounded-lg shadow-sm ring-1 ring-gray-300 hover:shadow-md transition-shadow ${
                   isFullyBooked || isRegistered ? 'opacity-75' : ''
                 }`}
