@@ -8,13 +8,15 @@ import { Prisma } from '@prisma/client';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 
-type Props = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}
 
 export default async function ActivitiesPage({
   searchParams,
-}: Props) {
+}: {
+  searchParams: SearchParams;
+}) {
   const page = Number(searchParams.page) || 1;
   const type = typeof searchParams.type === 'string' ? searchParams.type : undefined;
   const query = typeof searchParams.query === 'string' ? searchParams.query : undefined;
